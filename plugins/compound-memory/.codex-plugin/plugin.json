@@ -1,6 +1,6 @@
 {
   "name": "compound-memory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connect Codex to a private, Git-synced Obsidian memory vault.",
   "author": {
     "name": "Lujiuqin"

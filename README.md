@@ -9,7 +9,7 @@ The public installer contains no personal notes, credentials, tokens, or private
 Run this version-pinned command in PowerShell on a new Windows computer:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/Lujiuqin/compound-memory-installer/v0.1.0/install.ps1' | iex"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/Lujiuqin/compound-memory-installer/v0.1.1/install.ps1' | iex"
 ```
 
 The installer checks prerequisites, opens GitHub device authentication, clones the private vault, registers the Codex plugin, installs `memoryctl`, and runs a health check.

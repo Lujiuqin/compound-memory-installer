@@ -7,7 +7,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
-const SERVER_VERSION = "0.1.0";
+const SERVER_VERSION = "0.1.1";
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
 const CONFIG_PATH = process.env.COMPOUND_MEMORY_CONFIG || path.join(os.homedir(), ".compound-memory", "config.json");
 

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$InstallerRepository = 'Lujiuqin/compound-memory-installer',
-  [string]$Version = 'v0.1.0',
+  [string]$Version = 'v0.1.1',
   [string]$VaultRepository = '',
   [string]$VaultPath = (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Obsidian\记忆系统'),
   [string]$SourceRoot = '',
@@ -19,6 +19,19 @@ $binRoot = Join-Path $homeRoot 'bin'
 $runtimeRoot = Join-Path $homeRoot 'runtime'
 $downloadRoot = Join-Path $homeRoot 'downloads'
 $configPath = Join-Path $homeRoot 'config.json'
+
+# Re-running the one-line installer upgrades the already configured Vault instead
+# of cloning a second copy when Windows redirects the Documents known folder.
+if (-not $PSBoundParameters.ContainsKey('VaultPath') -and (Test-Path -LiteralPath $configPath)) {
+  try {
+    $existingConfig = Get-Content -LiteralPath $configPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($existingConfig.vaultPath -and (Test-Path -LiteralPath $existingConfig.vaultPath)) {
+      $VaultPath = [string]$existingConfig.vaultPath
+    }
+  } catch {
+    Write-Warning "Existing Compound Memory config could not be read; using the system Documents folder. $($_.Exception.Message)"
+  }
+}
 
 function Write-Step([string]$Message) { Write-Host "`n==> $Message" -ForegroundColor Cyan }
 function Test-Command([string]$Name) { return [bool](Get-Command $Name -ErrorAction SilentlyContinue) }
@@ -183,20 +196,26 @@ if (-not $LocalOnly) {
     $needsClone = $true
   }
   if ($needsClone) {
-    & $ghPath repo clone $VaultRepository $VaultPath
+    & $ghPath repo clone $VaultRepository $VaultPath -- -c core.autocrlf=false
     if ($LASTEXITCODE -ne 0) { throw "Unable to clone private vault $VaultRepository" }
   }
   & $gitPath -C $VaultPath config user.name $owner
   & $gitPath -C $VaultPath config user.email "$userId+$owner@users.noreply.github.com"
   & $gitPath -C $VaultPath config pull.ff only
   & $gitPath -C $VaultPath config core.autocrlf false
+  if ($needsClone) {
+    $freshStatus = @(& $gitPath -C $VaultPath status --porcelain)
+    if ($LASTEXITCODE -ne 0 -or $freshStatus.Count -gt 0) {
+      throw 'Fresh Vault clone is unexpectedly dirty. Installation stopped before opening Obsidian.'
+    }
+  }
 } elseif (-not (Test-Path -LiteralPath $VaultPath)) {
   throw "LocalOnly requires an existing VaultPath: $VaultPath"
 }
 
 $deviceId = $env:COMPUTERNAME
 $config = [ordered]@{
-  version = '0.1.0'
+  version = '0.1.1'
   vaultPath = (Resolve-Path -LiteralPath $VaultPath).Path
   vaultRepository = $VaultRepository
   deviceId = $deviceId
