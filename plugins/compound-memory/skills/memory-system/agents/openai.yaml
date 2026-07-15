@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compound Memory"
+  short_description: "Search and compound private Obsidian memory"
+  default_prompt: "Use $memory-system to search my shared memory before answering."

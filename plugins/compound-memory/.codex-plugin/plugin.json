@@ -1,0 +1,23 @@
+{
+  "name": "compound-memory",
+  "version": "0.1.0",
+  "description": "Connect Codex to a private, Git-synced Obsidian memory vault.",
+  "author": {
+    "name": "Lujiuqin"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Compound Memory",
+    "shortDescription": "Search and compound a private Obsidian memory vault.",
+    "longDescription": "Search, read, capture, append, review and safely sync a user-controlled Obsidian knowledge base through a local MCP bridge.",
+    "developerName": "Lujiuqin",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Check my shared memory before answering this question.",
+      "Capture this idea and connect it to existing knowledge.",
+      "Run a health check and weekly memory review."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

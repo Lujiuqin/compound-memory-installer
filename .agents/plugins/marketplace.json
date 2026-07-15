@@ -1,0 +1,20 @@
+{
+  "name": "compound-memory-marketplace",
+  "interface": {
+    "displayName": "Compound Memory"
+  },
+  "plugins": [
+    {
+      "name": "compound-memory",
+      "source": {
+        "source": "local",
+        "path": "./plugins/compound-memory"
+      },
+      "policy": {
+        "installation": "INSTALLED_BY_DEFAULT",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
