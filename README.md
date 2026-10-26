@@ -1,5 +1,7 @@
 # Compound Memory Installer
 
+[中文使用说明](README.zh-CN.md) · [GitHub 仓库导航](https://github.com/Lujiuqin/creator-repository-collection/blob/main/GITHUB_NAVIGATION.md)
+
 Install a private, Git-synced Obsidian memory vault and connect it to Codex through a local MCP bridge.
 
 The public installer contains no personal notes, credentials, tokens, or private repository contents.
